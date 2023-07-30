@@ -6,5 +6,5 @@ This is Basic File integrity Monitoring for a folder in any OS, But I just teste
 When the script is run for the first time it can process all the files in the input list and store their current state. 
 When the script is run again it is able to detect changes in the content of the files being monitored and will notify the user who is running the script.
 
-I'd like to develpe this tools, in the first step I'm going to add logging 
-and make some function for organization of the code.
+I'd like to develop this tool. in the first step I'm going to add logging 
+and create some function for organization of the code.
