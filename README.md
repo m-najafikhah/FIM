@@ -1,5 +1,8 @@
 # FIM
 File Integrity Monitoring
+FIM is a tool used to monitor changes in files and identify unauthrized 
+modifications. It helps detect and alert us to suspicious activities on 
+our files, indicating possible attacks on our systems.
 
 This is Basic File integrity Monitoring for a folder in any OS, But I just tested it on Windows 11.
 
