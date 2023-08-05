@@ -2,6 +2,7 @@
 import hashlib
 import os
 import logging
+import subprocess
 
 # Configure logging to log changes and errors to 'file_monitor.log' file
 logging.basicConfig(filename='file_monitor.log', level=logging.INFO, format='%(asctime)s - %(message)s')
@@ -46,6 +47,16 @@ def save_current_file_state(state_file, file_state):
             for filename, checksum in file_state.items():
                 state.write(f"{filename}:{checksum}\n")
         logging.info("Current file state saved.")
+        # Set restrictive permissions for 'file_state.txt' to only allow the owner to read and write
+        os.chmod(state_file, 0o600)
+        if os.name == 'nt':
+            # Windows system, use subprocess to set file permissions using icacls
+            icacls_cmd1 = ["icacls", state_file, "/setowner", uid_of_monitoring_user] ##Please replace uid_of_monitoring_user with the actual username of the restricted user on Windows
+            icacls_cmd2 = ["icacls", state_file, "/inheritance:r"]
+            icacls_cmd3 = ["icacls", state_file, "/grant", uid_of_monitoring_user] ##Please replace uid_of_monitoring_user with the actual username of the restricted user on Windows
+            subprocess.run(icacls_cmd1, shell=True, check=True)
+            subprocess.run(icacls_cmd2, shell=True, check=True)
+            subprocess.run(icacls_cmd3, shell=True, check=True)
     except Exception as e:
         logging.error(f"Error while saving current file state: {str(e)}")
 
@@ -104,4 +115,8 @@ def main():
 
 # Entry point of the script
 if __name__ == "__main__":
+    # Set restrictive permissions for 'file_monitor.log' to only allow the owner to read and write
+    os.chmod("file_monitor.log", 0o600)
+    
+    # Run the main function
     main()
